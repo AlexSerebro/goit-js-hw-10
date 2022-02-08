@@ -1,8 +1,13 @@
-
+{{#each this}}
 <ul class='country-card'>
   <li><h2>{{name.official}}</h2></li>
-  <li>{{capital}}</li>
-  <li>{{population}}</li>
-  <li>{{flags.svg}}</li>
-  <li>{{languages}}</li>
+  <li><img src="{{flags.svg}}" alt="" class="card-img"></li>
+  <li>Capital: {{capital}}</li>
+  <li>Population: {{population}}</li>
+  <li>Languages:
+    {{#each languages}}
+    {{this}},
+    {{/each}}
+  </li>
 </ul>
+{{/each}}

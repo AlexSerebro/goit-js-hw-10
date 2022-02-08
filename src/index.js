@@ -17,14 +17,19 @@ function onSearch() {
 
   fetchCountryByName(inputText).then(finalRender).catch(onFetchError);
 }
+
 function finalRender(response) {
   clearHtml();
+  if (!response.length) {
+    onFetchError();
+  }
   if (response.length >= 10) {
     Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
-    return;
   } else if (response.length > 1) {
-    console.log('norm');
+    // console.log('norm');
     renderCountryList(response);
+  } else if (response.length === 1) {
+    renderCountryCard(response);
   }
 }
 
@@ -35,18 +40,19 @@ function clearHtml() {
 
 function renderCountryCard(inputText) {
   const marcup = countryCardTpl(inputText);
-  console.log('~ marcup', marcup);
+  // console.log('~ marcup', marcup);
   refs.countryInfo.insertAdjacentHTML('beforeend', marcup);
 }
 
 function renderCountryList(inputText) {
   console.log(inputText);
   const marcup = countrysListTpl(inputText);
-  console.log('~ marcup', marcup);
+  // console.log('~ marcup', marcup);
 
   refs.countryList.insertAdjacentHTML('beforeend', marcup);
 }
 
 function onFetchError() {
+  // console.log('hhh');
   Notiflix.Notify.failure('Oops, there is no country with that name');
 }
