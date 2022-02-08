@@ -22,3 +22,18 @@ body {
 .country-card {
   border: 3px;
 }
+
+.img {
+  height: 50px;
+  width: 60px;
+}
+
+.list-item {
+  display: flex;
+
+  align-items: center;
+}
+
+.text {
+  padding-left: 10px;
+}

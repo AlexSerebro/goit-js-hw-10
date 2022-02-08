@@ -14,18 +14,37 @@ refs.inputRefs.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 
 function onSearch() {
   let inputText = refs.inputRefs.value.trim();
-  console.log('~ inputText', inputText);
+
+  fetchCountryByName(inputText).then(finalRender).catch(onFetchError);
+}
+function finalRender(response) {
+  clearHtml();
+  if (response.length >= 10) {
+    Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
+    return;
+  } else if (response.length > 1) {
+    console.log('norm');
+    renderCountryList(response);
+  }
+}
+
+function clearHtml() {
+  refs.countryList.innerHTML = '';
+  refs.countryInfo.innerHTML = '';
 }
 
 function renderCountryCard(inputText) {
   const marcup = countryCardTpl(inputText);
-  // console.log('~ marcup', marcup);
-  refs.countryInfo.innerHTML = marcup;
+  console.log('~ marcup', marcup);
+  refs.countryInfo.insertAdjacentHTML('beforeend', marcup);
 }
 
-function renderCountryCard(inputText) {
+function renderCountryList(inputText) {
+  console.log(inputText);
   const marcup = countrysListTpl(inputText);
-  refs.countryList.innerHTML = marcup;
+  console.log('~ marcup', marcup);
+
+  refs.countryList.insertAdjacentHTML('beforeend', marcup);
 }
 
 function onFetchError() {
