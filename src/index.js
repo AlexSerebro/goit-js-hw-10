@@ -12,9 +12,11 @@ const refs = getrefs();
 
 refs.inputRefs.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 
-function onSearch() {
+function onSearch(event) {
   let inputText = refs.inputRefs.value.trim();
-
+  if (!inputText) {
+    return;
+  }
   fetchCountryByName(inputText).then(finalRender).catch(onFetchError);
 }
 
@@ -25,7 +27,7 @@ function finalRender(response) {
   }
   if (response.length >= 10) {
     Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
-  } else if (response.length > 1) {
+  } else if (response.length > 1 && response.length <= 10) {
     // console.log('norm');
     renderCountryList(response);
   } else if (response.length === 1) {
